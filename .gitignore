@@ -1,0 +1,9 @@
+__pycache__
+*.csv
+*.txt
+*.png
+*.pkl
+data/
+models/
+plots/
+baselines/results

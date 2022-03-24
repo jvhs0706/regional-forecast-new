@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import pickle as pk
 
 from model_utils.lstm import Seq2seq, BidirectionalLSTM
-from model_utils.utils import TimestepDense
+from model_utils.dense import TimestepDense
 from model_utils.broadcasting import *
 
 from data_utils import *

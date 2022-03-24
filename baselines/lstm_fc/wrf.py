@@ -1,5 +1,5 @@
 from data_utils.wrf import *
-from data_utils.utils import *
+from data_utils import *
 
 import os
 import pandas as pd

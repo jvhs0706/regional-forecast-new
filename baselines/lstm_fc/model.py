@@ -4,9 +4,9 @@ import torch.nn.functional as F
 import pickle as pk
 
 from model_utils.lstm import Seq2seq, BidirectionalLSTM
-from model_utils.utils import TimestepDense
+from model_utils.dense import TimestepDense
 
-from data_utils.utils import *
+from data_utils import *
 
 class LSTM_FC(nn.Module):
     def __init__(self, source_station_obs_num_feat: int, 

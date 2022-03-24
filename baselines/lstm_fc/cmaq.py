@@ -1,5 +1,5 @@
 from data_utils.cmaq import *
-from data_utils.utils import *
+from data_utils import *
 
 import os
 import pandas as pd

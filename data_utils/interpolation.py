@@ -32,8 +32,8 @@ class InverseDistanceWeighted(Interpolation):
     def __init__(self, lat_lon, values):
         super().__init__(lat_lon, values)
         
-    def __call__(self, target_lat_lon):
-        dist = batch_dist(target_lat_lon.reshape(-1, 2), self.lat_lon) # (T, S)
+    def __call__(self, target_lat_lon, epsilon = 1e-8):
+        dist = np.maximum(batch_dist(target_lat_lon.reshape(-1, 2), self.lat_lon), epsilon) # (T, S)
         unnormalized_weights = 1/dist
         values_flattened = self.values.reshape(self.values.shape[0], -1)
         out = (unnormalized_weights @ np.nan_to_num(values_flattened)) / (unnormalized_weights @ ~np.isnan(values_flattened))

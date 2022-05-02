@@ -20,6 +20,8 @@ test_first_dt, test_last_dt = datetime(2021, 1, 1, 0), datetime(2021, 12, 31, 23
 timezone = -1
 history_days, horizon_days = 3, 2
 
+EARTH_RADIUS = 6371.009
+
 '''
 Data I/O utilities
 Loading and saving dictionaries.
@@ -36,10 +38,18 @@ def load_dict(fn: str):
 '''
 distance between a set of source locations and a set of target locations
 '''
-dist_func = np.vectorize(lambda s, t: geodesic(s, t).km, signature='(n),(n)->()')
+hav = lambda z: np.sin(z/2)**2
+archav = lambda z: 2 * np.arcsin(np.sqrt(z))
+
 def batch_dist(batch_0: np.array, batch_1: np.array):
-    dist = dist_func(batch_0.reshape(-1, 2)[:, None, :], batch_1.reshape(-1, 2)[None, :, :])
-    return dist.reshape(*batch_0.shape[:-1], *batch_1.shape[:-1])
+    (lat_0, lon_0), (lat_1, lon_1) = np.deg2rad(batch_0).reshape(-1, 2).T, np.deg2rad(batch_1).reshape(-1, 2).T
+    lat_abs_diff, lon_abs_diff = np.abs(lat_0[:, None] - lat_1[None, :]), np.abs(lon_0[:, None] - lon_1[None, :])
+    out = archav(hav(lat_abs_diff) + (1-hav(lat_abs_diff)-hav((lat_0[:, None] + lat_1[None, :])))*hav(lon_abs_diff)) * EARTH_RADIUS
+
+    if len(batch_0.shape) + len(batch_1.shape) > 2:
+        return out.reshape(*batch_0.shape[:-1], *batch_1.shape[:-1])
+    else:
+        return out[0, 0]
 
 '''
 Total mean and variation:

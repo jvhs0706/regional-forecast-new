@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 from . import *
 
@@ -46,7 +47,7 @@ if __name__ == '__main__':
 
     test_target_loc = load_dict(f'{data_dir}/test_target_loc.pkl')
     lons, lats = get_loc({st: loc for st, loc in test_target_loc.items() if st not in source_loc and st not in train_target_loc})
-    ax.plot(lons, lats, 'og', markersize = 2, label = 'Non-source non-training testing target stations')
+    ax.plot(lons, lats, 'og', markersize = 2, label = 'Benchmark stations')
 
     ax.legend()
     
@@ -54,4 +55,5 @@ if __name__ == '__main__':
     for section in borders:
         ax.plot(*section, 'k', linewidth=1)
 
-    fig.savefig('station_locations.png')
+    os.makedirs('plots', exist_ok = True)
+    fig.savefig('plots/station_locations.png')

@@ -49,6 +49,9 @@ if __name__ == '__main__':
     lons, lats = get_loc({st: loc for st, loc in test_target_loc.items() if st not in source_loc and st not in train_target_loc})
     ax.plot(lons, lats, 'og', markersize = 2, label = 'Benchmark stations')
 
+    ax.set_ylabel('Latitude (°N)')
+    ax.set_xlabel('Longitude (°E)')
+
     ax.legend()
     
     borders = get_border(f'{data_dir}/pearl_delta.txt')

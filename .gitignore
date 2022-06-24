@@ -7,3 +7,4 @@ data/
 models/
 plots/
 baselines/results
+.tmp.driveupload

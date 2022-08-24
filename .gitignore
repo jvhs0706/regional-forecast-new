@@ -1,6 +1,5 @@
 __pycache__
 *.csv
-*.txt
 *.png
 *.pkl
 data/
